@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="Sawai Madhopur Action Plan 2035">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sawai Madhopur</title>
+
+	<link rel="icon" type="image/png" href="http://cartodb.github.io/odyssey.js/sandbox/favicon.png"> 
+
+	<link rel="stylesheet" href="http://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/themes/css/cartodb.css">
+	<link rel="stylesheet" href="http://cartodb.github.io/odyssey.js/sandbox/css/slides.css">
+	<script src="http://cartodb.github.io/odyssey.js/vendor/modernizr-2.6.2.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet.css" />
+	<script src="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet-src.js"></script>
+	<!-- Load Esri Leaflet from CDN -->
+	<script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0/esri-leaflet.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script src="https://rawgithub.com/ismyrnow/Leaflet.groupedlayercontrol/master/src/leaflet.groupedlayercontrol.js"></script>
+	
+	<style>
+		body {
+		  text-align: left;
+		  margin: 0; padding: 0;
+		  font-family: Georgia;
+		  background: #EEE;
+		}
+		
+		h2 {
+		  font-weight: normal;
+		} 
+		
+		#slides_container .slide {
+		  max-height: 600px;
+		}
+		
+		<!-- Below configuration in style id for Layer Control -->
+		
+		.leaflet-control-layers-group-name {
+		  font-weight: bold;
+		  margin-bottom: .2em;
+		  display: block;
+		}
+		
+		.leaflet-control-layers-group {
+		  margin-bottom: .5em;
+		}
+		
+		.leaflet-control-layers-group label {
+		  padding-left: .5em;
+		}
+		
+  </style>
+</head>
+<body>
+  <script src="http://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/cartodb.js"></script>
+  <script src="http://cartodb.github.io/odyssey.js/dist/odyssey.js" charset="UTF-8"></script>
+  <script src="../lib/require.js"></script>
+	<div id="map" style="width: 100%; height: 100%"></div>
+	<div id="slides_container" style="z-index: 9999; display:block;">
+		<div id="slides">
+			<div class="slide">
+				<h1 id="sintro">Sawai Madhopur, Rajasthan</h1>
+				<p>Content to be added here.</p>
+			</div>
+			<div class="slide">
+				<h1 id="bstop">Phase 1&2 Bus Stop</h1>
+				<p>Content to be added here.</p>
+			</div>
+			<div class="slide">
+				<h1 id="broute">Proposed Bus Routes</h1>
+				<p>Content to be added here.</p>
+			</div>
+			<div class="slide">
+				<h1 id="bdepo">Bus Depot, Truck Terminal, Cold Storage</h1>
+				<p>Content to be added here.</p>
+			</div>
+			<div class="slide">
+				<h1 id="tterm">Proposed Utilities</h1>
+				<p>Content to be added here.</p>
+			</div>
+			<div class="slide">
+				<h1 id="utill">Proposed Roads</h1>
+				<p>Content to be added here.</p>
+			</div>
+			<div class="slide">
+				<h1 id="pform">Proposed form</h1>
+				<p>Content to be added here.</p>
+			</div>
+			<div class="slide">
+				<h1 id="pdense">Proposed Density</h1>
+				<p>Content to be added here.</p>
+			</div>
+			<div class="slide">
+				<h1 id="planduse">Proposed Landuse</h1>
+				<p>Content to be added here.</p>
+			</div>
+			<div class="slide">
+				<h1 id="elanduse">Existing Landuse</h1>
+				<p>Content to be added here.</p>
+			</div>
+			<div class="slide">
+				<h1 id="revparcel">Revenue Parcel</h1>
+				<p>Content to be added here.</p>
+			</div>
+		</div>
+		<ul id="navButtons">
+		  <li><a class="prev"></a></li>
+		  <li><a class="next"></a></li>
+		</ul>
+	</div>
+	
+	<div id="credits">
+        <span class="title">
+			<strong id="title">SAWAI MADHOPUR</strong>
+		</span>
+		<span class="author">
+			<strong id="author">By JANA URBAN SPACE FOUNDATION</strong>
+		</span>
+	</div>
+	<script>
+	    
+		var dat = dat || {};
+		
+		//Main function to initialize data and render it on the map
+		dat.odysseyFrame = (function(w,d,$,O) {
+			//Define array with NULL object
+			var kal = {
+				map : null,
+				baselayer : null,
+				baselayer2 : null,
+				story : null,
+				sawaii : null,
+				sawai2 : null,
+				sawai3 : null,
+				sawai4 : null,
+				sawai5 : null,
+				sawai6 : null,
+				sawai7 : null,
+				sawai8 : null,
+				sawai9 : null,
+				sawai10 : null
+			};
+			
+			var initMap = function () {
+				kal.map = new L.map('map').setView([26.004941, 76.318073], 13);
+				kal.baselayer2 =  L.esri.basemapLayer('Imagery');
+				kal.baselayer = L.esri.basemapLayer('Topographic');
+				var servUrl = 'http://180.151.199.100/arcgis/rest/services/JUSP/SWM_SDP_2035/MapServer';
+				
+				//Assign array element each layer that we need to display
+				kal.sawaii = L.esri.dynamicMapLayer({
+					url: servUrl,
+					layers : [0]
+				  });
+				
+				kal.sawai2 = L.esri.dynamicMapLayer({
+					url: servUrl,
+					layers : [2,3]
+				  });
+				
+				kal.sawai3 = L.esri.dynamicMapLayer({
+					url: servUrl,
+					layers : [5,6,7,8,9]
+				  });
+				
+				kal.sawai4 = L.esri.dynamicMapLayer({
+					url: servUrl,
+					layers : [10,11,12]
+				  });
+				
+				
+				kal.sawai5 = L.esri.dynamicMapLayer({
+					url: servUrl,
+					layers : [14,15,16,17,19,20,21,22,23,24,25,26,27]
+				  });
+				
+				kal.sawai6 = L.esri.dynamicMapLayer({
+					url: servUrl,
+					layers : [29,30,31,32,33,34,35,36]
+				  });
+				
+				kal.sawai7 = L.esri.dynamicMapLayer({
+					url: servUrl,
+					layers : [38,39,40,41,42,43,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60]
+				  });
+				
+				kal.sawai8 = L.esri.dynamicMapLayer({
+					url: servUrl,
+					layers : [62,63,64,65,66,67,68,69,7,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85]
+				  });
+				
+				kal.sawai9 = L.esri.dynamicMapLayer({
+					url: servUrl,
+					layers : [87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,
+							  107,108,109,110,111,112]
+				  });
+				
+				kal.sawai10 = L.esri.dynamicMapLayer({
+					url: servUrl,
+					layers : [113]
+				  });
+				
+				kal.sawai11 = L.esri.dynamicMapLayer({
+					url: servUrl,
+					layers : [114]
+				  });
+		    }
+			
+			var arrData = {
+				topo : null,
+				imagry : null,
+				bound : null,
+				phbst : null,
+				brout1 : null,
+				bbusde : null,
+				tterm : null,
+				proads : null,
+				pform : null,
+				pdens : null,
+				pland : null,
+				eland : null,
+				rparcel : null
+			
+			};
+			
+			//Loading data to the Map
+			var loadData = function () {
+				
+				arrData.topo = L.layerGroup([
+					kal.baselayer
+				]).addTo(kal.map);
+				
+				arrData.imagry = L.layerGroup([
+					kal.baselayer2
+				]);
+				
+				arrData.bound = L.layerGroup([
+					kal.sawaii
+				]).addTo(kal.map);
+				
+				arrData.phbst = L.layerGroup([
+					kal.sawai2
+				]);
+				
+				arrData.brout1 = L.layerGroup([
+					kal.sawai3
+				]);
+				
+				arrData.bbusde = L.layerGroup([
+					kal.sawai4
+				]);
+				
+				arrData.tterm = L.layerGroup([
+					kal.sawai5
+				]);
+				
+				arrData.proads = L.layerGroup([
+					kal.sawai6
+				]);
+				
+				arrData.pform = L.layerGroup([
+					kal.sawai7
+				]);
+				
+				arrData.pdens = L.layerGroup([
+					kal.sawai8
+				]);
+				
+				arrData.pland = L.layerGroup([
+					kal.sawai9
+				]);
+				
+				arrData.eland = L.layerGroup([
+					kal.sawai10
+				]);
+				
+				arrData.rparcel = L.layerGroup([
+					kal.sawai11
+				]);
+				
+	            //Setup Layer Labels for Layer Control			
+				var baseMaps = {
+					"Topographic": arrData.topo,
+					"Imagery": arrData.imagry
+				}
+				
+				var overlays = {
+					"Boundary": {
+						"Boundary": arrData.bound
+					},
+					"Bus Stops" : {
+						"Phase 1&2": arrData.phbst
+					},
+					"Bus Routes" : {
+						"Route": arrData.brout1
+					},
+					" Proposed DTS" : {
+						"Depot": arrData.bbusde
+					},
+					"Proposed Utilities" : {
+						"Utilities": arrData.tterm
+					},
+					"Proposed Roads" : {
+						"Roads": arrData.proads
+					},
+					"Proposed Form" : {
+						"Form": arrData.pform
+					},
+					"Proposed Density" : {
+						"Density": arrData.pdens
+					},
+					"Proposed Landuse" : {
+						"Landuse": arrData.pland
+					},
+					"Existing Landuse" : {
+						"Existing": arrData.eland
+					},
+					"Revenue Parcel" : {
+						"Parcel": arrData.rparcel
+					}
+				}
+				
+				//Function Call for Layer Control
+				L.control.groupedLayers(baseMaps,overlays, {
+				  collapsed: true
+				}).addTo(kal.map);
+			}
+			
+			var emitSlideChange = O.Action( function() {
+			 $(document).trigger('slideChange', function() {
+			  console.log(seq.current())
+			 });
+			});
+			
+			function listenSlideChange() {
+			  $(document).on('slideChange', function() {
+				console.log('listened to slidechange');
+				trackCurrentSlide();
+			  });
+			}
+			
+			function trackCurrentSlide() {
+			  slides = $('#slides').children(); // creates an array of slides                 
+			  slides.each(function(i){
+				if ($(this).hasClass('selected')) {
+				  console.log('index: ', i);
+				  checkIndex(i);
+				}
+			  }); 
+			}
+			
+			function checkIndex(index) {
+			  switch(index){
+				case 0: console.log('first slide!'), slideOne(); 
+				break;
+				case 1: console.log('second slide!'), slideTwo();
+				break;
+				case 2: console.log('third slide!'), slideThree();
+				break;
+				case 3: console.log('fourth slide'), slideFour();
+				break;
+				case 4: console.log('fifth slide'), slideFive();
+				break;
+				case 5: console.log('sixth slide'), slideSix();
+				break;
+				case 6: console.log('seventh slide'), slideSeven();
+				break;
+				case 7: console.log('eigth slide'), slideEight();
+				break;
+				case 8: console.log('nineth slide'), slideNine();
+				break;
+				case 9: console.log('tenth slide'), slideTen();
+				break;
+                case 10: console.log('eleventh slide'), slideEleven();
+				break;				
+				default: console.log('out of slide counters');  
+			  }
+			}
+			
+			function slideOne() {
+			  if (kal.map.hasLayer(arrData.phbst)||
+				  kal.map.hasLayer(arrData.rparcel)){
+				kal.map.removeLayer(arrData.phbst);
+				kal.map.removeLayer(arrData.rparcel);
+			  }
+			}
+			
+			function slideTwo() {
+			  if (kal.map.hasLayer(arrData.brout1)) {
+				kal.map.removeLayer(arrData.brout1);
+			  }
+			  arrData.phbst.addTo(kal.map);
+			}
+			
+			function slideThree() {
+			   if (kal.map.hasLayer(arrData.phbst)||
+			       kal.map.hasLayer(arrData.bbusde) ) {
+			    kal.map.removeLayer(arrData.phbst);
+				kal.map.removeLayer(arrData.bbusde);
+			   }
+			   arrData.brout1.addTo(kal.map);
+			}
+			
+			function slideFour() {
+			   if (kal.map.hasLayer(arrData.brout1)||
+			       kal.map.hasLayer(arrData.tterm)) {
+			    kal.map.removeLayer(arrData.brout1);
+				kal.map.removeLayer(arrData.tterm);
+			   }
+			   arrData.bbusde.addTo(kal.map);
+			}
+			
+			function slideFive() {
+			   if (kal.map.hasLayer(arrData.bbusde)||
+			       kal.map.hasLayer(arrData.proads)) {
+			    kal.map.removeLayer(arrData.bbusde);
+				kal.map.removeLayer(arrData.proads);
+			   }
+			   arrData.tterm.addTo(kal.map);
+			}
+			
+			function slideSix() {
+			   if (kal.map.hasLayer(arrData.tterm)||
+			       kal.map.hasLayer(arrData.pform)) {
+			    kal.map.removeLayer(arrData.tterm);
+				kal.map.removeLayer(arrData.pform);
+			   }
+			   arrData.proads.addTo(kal.map);
+			}
+			
+			function slideSeven() {
+			   if (kal.map.hasLayer(arrData.proads)||
+			       kal.map.hasLayer(arrData.pdens)) {
+			    kal.map.removeLayer(arrData.proads);
+				kal.map.removeLayer(arrData.pdens);
+			   }
+			   arrData.pform.addTo(kal.map);
+			}
+			
+			function slideEight() {
+			   if (kal.map.hasLayer(arrData.pform)||
+			       kal.map.hasLayer(arrData.pland)) {
+			    kal.map.removeLayer(arrData.pform);
+				kal.map.removeLayer(arrData.pland);
+			   }
+			   arrData.pdens.addTo(kal.map);
+			}
+			
+			function slideNine() {
+			   if (kal.map.hasLayer(arrData.pdens)||
+			       kal.map.hasLayer(arrData.eland)) {
+			    kal.map.removeLayer(arrData.pdens);
+				kal.map.removeLayer(arrData.eland);
+			   }
+			   arrData.pland.addTo(kal.map);
+			}
+			
+			function slideTen() {
+			   if (kal.map.hasLayer(arrData.pland)||
+			       kal.map.hasLayer(arrData.rparcel)) {
+			    kal.map.removeLayer(arrData.pland);
+				kal.map.removeLayer(arrData.rparcel);
+			   }
+			   arrData.eland.addTo(kal.map);
+			}
+			
+			function slideEleven() {
+			   if (kal.map.hasLayer(arrData.eland)) {
+			    kal.map.removeLayer(arrData.eland);
+			   }
+			   arrData.rparcel.addTo(kal.map);
+			}
+	        
+            //Odyssey Template and Slide/State Activation Code			
+			function initOdyssey(O) {
+				var map = kal.map;
+				var seq = O.Triggers.Sequential();
+				// enable keys to move slides
+				O.Triggers.Keys().left().then(seq.prev, seq)
+				O.Triggers.Keys().right().then(seq.next, seq)
+				// set up triggers for slide arrows 
+				click(document.querySelectorAll('.next')).then(seq.next, seq)
+				click(document.querySelectorAll('.prev')).then(seq.prev, seq)
+				
+				var slides = O.Actions.Slides('slides');
+				kal.story = O.Story()
+				
+				.addState(
+				  seq.step(0),
+				  O.Parallel(                        
+					slides.activate(0),
+					emitSlideChange
+				  )
+				)
+				
+				.addState(
+				  seq.step(1),
+				  O.Parallel(                        
+					slides.activate(1),
+					emitSlideChange
+				  )
+				)
+				
+				.addState(
+				  seq.step(2),
+				  O.Parallel(                        
+					slides.activate(2),
+					emitSlideChange
+				  )
+				)
+				
+				.addState(
+				  seq.step(3),
+				  O.Parallel(                        
+					slides.activate(3),
+					emitSlideChange
+				  )
+				)
+				
+				.addState(
+				  seq.step(4),
+				  O.Parallel(                        
+					slides.activate(4),
+					emitSlideChange
+				  )
+				)
+				
+				.addState(
+				  seq.step(5),
+				  O.Parallel(                        
+					slides.activate(5),
+					emitSlideChange
+				  )
+				)
+				
+				.addState(
+				  seq.step(6),
+				  O.Parallel(                        
+					slides.activate(6),
+					emitSlideChange
+				  )
+				)
+				
+				.addState(
+				  seq.step(7),
+				  O.Parallel(                        
+					slides.activate(7),
+					emitSlideChange
+				  )
+				)
+				
+				.addState(
+				  seq.step(8),
+				  O.Parallel(                        
+					slides.activate(8),
+					emitSlideChange
+				  )
+				)
+				
+				.addState(
+				  seq.step(9),
+				  O.Parallel(                        
+					slides.activate(9),
+					emitSlideChange
+				  )
+				)
+				
+				.addState(
+				  seq.step(10),
+				  O.Parallel(                        
+					slides.activate(10),
+					emitSlideChange
+				  )
+				)
+				
+				kal.story.go(0);
+			}
+			
+			function click(el) {
+				var element = O.Core.getElement(el);
+				var t = O.Trigger();
+
+				function click() {
+				// console.log(el);
+				t.trigger();
+				}
+
+				if (element) element.onclick = click;
+				return t;
+			}
+			
+			function init(){
+				initMap();
+				loadData();
+				initOdyssey(O);
+				listenSlideChange();
+			}
+			
+			return {
+				init: init,
+				kal: kal
+			}
+		}) (window,document,jQuery,O);
+	
+	window.addEventListener('DOMContentLoaded', function(){
+		dat.odysseyFrame.init();
+	});
+	
+	</script>
+</body>
+</html>
